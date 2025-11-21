@@ -14,8 +14,7 @@ services:
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf
       - ./nginx/conf.d:/etc/nginx/conf.d
-      - ./nginx/snippets:/etc/nginx/snippets
-      - ./letsencrypt:/etc/letsencrypt
+      - ./tls:/tls
       - ./www:/var/www
     labels:
       - "com.centurylinklabs.watchtower.enable=false"

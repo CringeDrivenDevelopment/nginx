@@ -10,20 +10,24 @@ server {
 server {
     listen 443 ssl http2;
     listen [::]:443 ssl http2;
-    
-    # Uncomment the following line for HTTP/3
-    # listen 443 quic;
+
+    listen 443 quic;
+    quic_retry on;
+    add_header alt-svc 'h3-29=":443"; ma=86400, h3-28=":443"; ma=86400, h3-27=":443"; ma=86400';
 
     server_name SUBDOMAIN.your-domain.com;
 
-    include snippets/tls.conf;
-    # Uncomment the following line for HTTP/3
-    # include snippets/http3.conf;
+    ssl_protocols TLSv1.2 TLSv1.3;
+    ssl_ciphers 'TLS_AES_128_GCM_SHA256:TLS_AES_256_GCM_SHA384:TLS_CHACHA20_POLY1305_SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384';
+    ssl_prefer_server_ciphers off;
 
-    # Replace with the actual path to your certificates for this subdomain
+    ssl_session_cache shared:SSL:10m;
+    ssl_session_timeout 1d;
+    ssl_session_tickets off;
+
     ssl_certificate /etc/letsencrypt/live/SUBDOMAIN.your-domain.com/fullchain.pem;
     ssl_certificate_key /etc/letsencrypt/live/SUBDOMAIN.your-domain.com/privkey.pem;
-    
+
     root /var/www/SUBDOMAIN;
     index index.html;
 
