@@ -5,6 +5,8 @@ networks:
 services:
   nginx:
     image: nginx:trixie
+    networks:
+      - infra
     ports:
       - "80:80"
       - "443:443"
